@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware("guest")->post('/register', 'AuthAPIController@register');
+Route::middleware("guest")->post('/login', 'AuthAPIController@login');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'auth:sanctum'], function(){
+  Route::resource('/banners', BannerAPIController::class);
+  Route::resource('/photos', PhotoAPIController::class);
+  Route::get('/logout', 'AuthAPIController@logout');
+  
+});
+
+
+
+
